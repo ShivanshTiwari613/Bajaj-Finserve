@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './app.css';
 import ResponseDisplay from './components/ResponseDisplay';
+import './App.css';
 
 const App = () => {
-
+  // State for input JSON, API response, errors, and filter options.
   const [inputJson, setInputJson] = useState('');
   const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState('');
   const [selectedOptions, setSelectedOptions] = useState([]);
 
+  // Function to handle form submission.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -22,15 +23,16 @@ const App = () => {
     }
 
     try {
-
-      const response = await axios.post('http://localhost:3000/bfhl', parsedData);
+      // For local testing, use: 'http://localhost:3000/bfhl'
+      // Replace with your deployed backend URL as needed.
+      const response = await axios.post('https://bajaj-finserve-l259.onrender.com/bfhl', parsedData);
       setResponseData(response.data);
     } catch (err) {
       setError('Error calling backend API');
     }
   };
 
-  // Handle checkbox changes to update filter options.
+  // Function to update filter options from checkboxes.
   const handleOptionChange = (e) => {
     const { value, checked } = e.target;
     if (checked) {
@@ -42,13 +44,12 @@ const App = () => {
 
   return (
     <div className="app-container">
-      {/* Title (your roll number) */}
-      <h1 className="title">22BCS80289</h1>
+      {/* Title is set to your roll number */}
+      <h1 className="title">ABCD123</h1>
       <form onSubmit={handleSubmit} className="input-form">
         <textarea
           className="input-textarea"
           rows="10"
-          cols="50"
           value={inputJson}
           onChange={(e) => setInputJson(e.target.value)}
           placeholder='Enter JSON, e.g. { "data": ["A", "C", "z"] }'
